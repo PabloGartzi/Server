@@ -1,17 +1,18 @@
-const {adminQuerys} = require("./models/admin.querys");
+const {connection} = require('../config/dbConnect') 
+const {adminQuerys} = require("./admin.querys");
 
 const getAllFilms = async () => {
   let client, result
   try {
     client = await connection();
     result = await client.query(adminQuerys.getAllFilms)
-    console.log("data", result.rows[0])
+    return result.rows;
   } catch (error) {
     console.log(error, "<===========================>")
     return error;
   } finally{
     await client.end()
-    console.log("<==============FINAL=============>")
+    console.log("<==============CIERRE DE CONEXIÓN=============>")
   }
 }
 
@@ -20,7 +21,7 @@ const getFilmByID = async (id) => {
   try {
     client = await connection();
     result = await client.query(adminQuerys.getFilmByID, [id])
-    console.log("data", result.rows[0])
+    return result.rows;
   } catch (error) {
     console.log(error, "<===========================>")
     return error;
@@ -30,7 +31,25 @@ const getFilmByID = async (id) => {
   }
 }
 
+const addFilm = async (filmData) => {
+  const {titulo, imagen, año, director, genero, duracion} = filmData;
+  let client, result;
+  try {
+    client = await connection();
+    result = await client.query(adminQuerys.addFilm,[titulo, imagen, año, director, genero, duracion]);
+    
+    return result.rows;
+  } catch (error) {
+    console.log("Error al agregar película:", error);
+    return error;
+  } finally {
+    await client.end();
+  }
+};
+
+
 module.exports= {
     getAllFilms,
-    getFilmByID
+    getFilmByID,
+    addFilm
 }

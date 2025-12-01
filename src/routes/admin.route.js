@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+const { getTodasLasPelis, getPeliculaPorID, anadirPelicula } = require("../controllers/admin.controller");
+
 
 // importar controladores
 
@@ -8,7 +10,7 @@ const router = express.Router();
 
 // Ruta crear pelicula
 
-router.post('/createMovie', /* valicacion , */createMovie)
+router.post('/createMovie', /* valicacion , */anadirPelicula)
 
 //Ruta editar película
 

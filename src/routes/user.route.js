@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const { getTodasLasPelis, getPeliculaPorID, anadirPelicula } = require("../controllers/admin.controller");
 
 // importar controladores
 
@@ -12,7 +13,7 @@ router.post('/logout',/* validaciones ,*/logout)
 
 
 //get
-router.get('/',/* validaciones ,*/ home);
+router.get('/',/* validaciones ,*/ getTodasLasPelis);
 router.get('/dashboard',/* validaciones ,*/dashboard)
 router.get('/search/:title',/* validaciones ,*/searchMovie)
 router.get('/search',/* validaciones ,*/search)
