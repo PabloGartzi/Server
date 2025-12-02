@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { getTodasLasPelis, getPeliculaPorID, anadirPelicula } = require("../controllers/admin.controller");
+const { getTodasLasPelis, getPeliculaPorID, anadirPelicula, editarPelicula, borrarPelicula} = require("../controllers/admin.controller");
 
 
 // importar controladores
@@ -14,11 +14,11 @@ router.post('/createMovie', /* valicacion , */anadirPelicula)
 
 //Ruta editar película
 
-router.put('/editMovie',/* valicacion , */editMovie)
+router.put('/editMovie/:id',/* valicacion , */editarPelicula)
 
 //Ruta eliminar pelicula
 
-router.delete('/removeMovie',/* valicacion , */deleteMovie)
+router.delete('/removeMovie/:id',/* valicacion , */borrarPelicula)
 
 
 

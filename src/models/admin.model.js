@@ -36,7 +36,7 @@ const addFilm = async (filmData) => {
   let client, result;
   try {
     client = await connection();
-    result = await client.query(adminQuerys.addFilm,[titulo, imagen, año, director, genero, duracion]);
+    result = await client.query(adminQuerys.addFilm, [titulo, imagen, año, director, genero, duracion]);
     
     return result.rows;
   } catch (error) {
@@ -47,9 +47,42 @@ const addFilm = async (filmData) => {
   }
 };
 
+const editMovie = async (id, filmData) => {
+  const {titulo, imagen, año, director, genero, duracion} = filmData;
+  let client, result;
+  try {
+    client = await connection();
+    result = await client.query(adminQuerys.editMovie, [id, titulo, imagen, año, director, genero, duracion]
+    );
+    return result.rows[0]; // Devolvemos un solo objeto
+  } catch (error) {
+    console.log("Error al editar película:", error);
+    return error;
+  } finally {
+    await client.end();
+  }
+};
+
+const deleteMovie = async (id) => {
+  let client, result;
+  try {
+    client = await connection();
+    result = await client.query(adminQuerys.deleteMovie, [id]
+    );
+    return result.rows[0]; // Devolvemos un solo objeto
+  } catch (error) {
+    console.log("Error al editar película:", error);
+    return error;
+  } finally {
+    await client.end();
+  }
+};
+
 
 module.exports= {
     getAllFilms,
     getFilmByID,
-    addFilm
+    addFilm,
+    editMovie,
+    deleteMovie
 }

@@ -25,6 +25,7 @@ app.use(express.urlencoded())
 
 
 //RUTAS
+app.use('/admin', require('./routes/admin.route'));
 
 
 //LISTENER
