@@ -1,8 +1,15 @@
 const express = require("express");
 const router = express.Router();
-const { getTodasLasPelis, getPeliculaPorID, anadirPelicula } = require("../controllers/admin.controller");
-
-// importar controladores
+const { getTodasLasPelis, 
+    getPeliculaPorID,
+    anadirPelicula,
+    borrarPelicula,
+    editarPelicula,
+    buscarPelicula,
+    getTodoLosFavoritos,
+    guardarFavorito,
+    borrarFavorito,
+ } = require("../controllers/admin.controller");
 
 // importar middlewares
 
@@ -15,8 +22,8 @@ router.post('/logout',/* validaciones ,*/logout)
 //get
 router.get('/',/* validaciones ,*/ getTodasLasPelis);
 router.get('/dashboard',/* validaciones ,*/dashboard)
-router.get('/search/:title',/* validaciones ,*/searchMovie)
-router.get('/search',/* validaciones ,*/search)
+router.get('/search/:title',/* validaciones ,*/buscarPelicula)
+
 
 // recuperar contraseña
 // router.get('/recoverpassword', validaciones , recoverPassword)
@@ -24,11 +31,10 @@ router.get('/search',/* validaciones ,*/search)
 // cambiar contraseña
 // router.put('/restorepassword', validaciones , changePassword)
 
-//guardar en favoritos
-router.get('/favoritas',/* validaciones ,*/saveFavourites)
 
-//eliminar favoritos
-router.delete('/deleteFavorito',/* validaciones ,*/deleteFavourites)
+router.get('/añadirFavoritos',/* validaciones ,*/guardarFavorito)
+router.get('/favoritos',/* [validaciones] */getTodoLosFavoritos)
+router.delete('/deleteFavorito',/* validaciones ,*/borrarFavorito)
 
 
 module.exports = router 
