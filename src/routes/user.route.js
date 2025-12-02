@@ -1,40 +1,21 @@
 const express = require("express");
 const router = express.Router();
-const { getTodasLasPelis, 
-    getPeliculaPorID,
-    anadirPelicula,
-    borrarPelicula,
-    editarPelicula,
+const {validarJWT} = require("../middlewares/validarJWT")
+
+const {
     buscarPelicula,
     getTodoLosFavoritos,
     guardarFavorito,
     borrarFavorito,
- } = require("../controllers/admin.controller");
-
-// importar middlewares
-
-//post 
-router.post('/singup',/* validaciones ,*/ registerUser)
-router.post('/login',/* validaciones ,*/loginUsuario)
-router.post('/logout',/* validaciones ,*/logout)
+ } = require("../controllers/user.controller");
 
 
-//get
-router.get('/',/* validaciones ,*/ getTodasLasPelis);
-router.get('/dashboard',/* validaciones ,*/dashboard)
-router.get('/search/:title',/* validaciones ,*/buscarPelicula)
-
-
-// recuperar contraseña
-// router.get('/recoverpassword', validaciones , recoverPassword)
-
-// cambiar contraseña
-// router.put('/restorepassword', validaciones , changePassword)
-
-
-router.get('/añadirFavoritos',/* validaciones ,*/guardarFavorito)
-router.get('/favoritos',/* [validaciones] */getTodoLosFavoritos)
-router.delete('/deleteFavorito',/* validaciones ,*/borrarFavorito)
+// router.get('/',/* validaciones ,*/ getTodasLasPelis);
+// router.get('/dashboard',/* validaciones ,*/dashboard)
+router.get('/search', [validarJWT]/* validaciones ,*/, buscarPelicula)
+router.post('/añadirFavoritos',[validarJWT] /* validaciones ,*/, guardarFavorito)
+router.get('/favoritos', [validarJWT]/* [validaciones] */, getTodoLosFavoritos)
+router.delete('/deleteFavorito',[validarJWT]/* validaciones ,*/, borrarFavorito)
 
 
 module.exports = router 

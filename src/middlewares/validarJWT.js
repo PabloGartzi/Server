@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 
 const validarJWT = (req, res, next) =>{
     const token = req.headers['authorization'].split(" ")[1]
+    console.log(token)
     if(!token){
         return res.status(401).json({
             ok: false,

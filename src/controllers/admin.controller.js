@@ -1,5 +1,4 @@
 const { getAllFilms, getFilmByID, addFilm, editMovie, deleteMovie } = require("../models/admin.model")
-const { deleteFavourite, getAllFavourite, getFilmByTitule, saveFavourite } = require('../models/user.model')
 
 const getTodasLasPelis = async (req, res) => {
     try {
@@ -107,95 +106,12 @@ const borrarPelicula = async (req, res) => {
     }
 }
 
-// Controllers de usuario
 
-const buscarPelicula = async (req, res) => {
-    const titulo = req.body
-
-    try {
-        const data = await getFilmByTitule(titulo)
-        console.log("<================ LA PELICULA BUSCADA: ================>", data)
-        return res.status(200).json({
-            ok: true,
-            msg: "TODO OK"
-        })
-
-    } catch (error) {
-        console.log(error)
-        return res.status(500).json({
-            ok: false,
-            msg: "Error al buscar la película"
-        })
-    }
-}
-
-const getTodoLosFavoritos = async (req, res) => {
-    try {
-        const data = await getAllFavourite()
-        console.log("<================ LAS PELICULAS QUE HAY EN FAVORITOS SON: ================>", data)
-        return res.status(200).json({
-            ok: true,
-            msg: "TODO OK",
-            data
-        })
-
-    } catch (error) {
-        console.log(error)
-        return res.status(500).json({
-            ok: false,
-            msg: "ERROR EN LA BUSQUEDA DE FAVORITOS"
-        })
-
-    }
-}
-
-const guardarFavorito = async (req,res) => {
-    const pelicula = req.body
-    try {
-        const data = await saveFavourite(pelicula)
-        console.log("<================ LA PELICULA GUARDADA EN FAVORITOS: ================>", data)
-        return res.status(200).json({
-            ok: true,
-            msg: "TODO OK"
-        })
-
-    } catch (error) {
-        console.log(error)
-        return res.status(500).json({
-            ok: false,
-            msg: "Error al guaradar en favoritos"
-        })
-    }
-}
-
-const borrarFavorito = async (req, res) => {
-    const id = req.params.id
-
-    try {
-        const data = await deleteFavourite(id)
-        console.log("<================ EL FAVORITO A ELIMINAR ES: ================>", data)
-        return res.status(200).json({
-            ok: true,
-            msg: 'TODO OK',
-            data
-        })
-    } catch {
-        console.log(error)
-        return res.status(500).json({
-            ok: false,
-            msg: "Error al eliminar favorito"
-        })
-    }
-}
 
 module.exports = {
     getTodasLasPelis,
     getPeliculaPorID,
     anadirPelicula,
     editarPelicula,
-    borrarPelicula,
-    getTodoLosFavoritos,
-    borrarFavorito,
-    buscarPelicula,
-    guardarFavorito
+    borrarPelicula
 }

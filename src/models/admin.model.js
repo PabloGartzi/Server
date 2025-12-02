@@ -32,11 +32,11 @@ const getFilmByID = async (id) => {
 }
 
 const addFilm = async (filmData) => {
-  const {titulo, imagen, año, director, genero, duracion} = filmData;
+  const {titulo, imagen_url, anio, id_director, id_genero, duracion_en_min, sinopsis} = filmData;
   let client, result;
   try {
     client = await connection();
-    result = await client.query(adminQuerys.addFilm, [titulo, imagen, año, director, genero, duracion]);
+    result = await client.query(adminQuerys.addFilm, [titulo, imagen_url, anio, id_director, id_genero, duracion_en_min, sinopsis ]);
     
     return result.rows;
   } catch (error) {
@@ -48,11 +48,11 @@ const addFilm = async (filmData) => {
 };
 
 const editMovie = async (id, filmData) => {
-  const {titulo, imagen, año, director, genero, duracion} = filmData;
+  const {titulo, imagen_url, anio, id_director, id_genero, duracion_en_min, sinopsis} = filmData;
   let client, result;
   try {
     client = await connection();
-    result = await client.query(adminQuerys.editMovie, [id, titulo, imagen, año, director, genero, duracion]
+    result = await client.query(adminQuerys.editMovie, [id_peliculas, titulo, imagen_url, anio, id_director, id_genero, duracion_en_min, sinopsis]
     );
     return result.rows[0]; // Devolvemos un solo objeto
   } catch (error) {
