@@ -29,7 +29,7 @@ const findOne = async (email) => {
     await client.end()
     console.log("<==============CIERRE DE CONEXIÓN=============>")
   }
- }
+}
 
 
 module.exports= {

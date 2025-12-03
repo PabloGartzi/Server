@@ -53,7 +53,7 @@ const saveFavourite = async (body, id_usuario) => {
     let client, result
     try {
         client = await connection();
-        result = await client.query(userQuerys.saveFavouriteFilm, [id_usuario, id_peliculas]);
+        result = await client.query(userQuerys.saveFavouriteFilm, [id_peliculas, id_usuario]);
         return result.rows
     } catch (error) {
         console.log(error, "<===========================>")
@@ -63,9 +63,26 @@ const saveFavourite = async (body, id_usuario) => {
     } 
 }
 
+const existeEnFavoritos = async (body, id_usuario) => {
+    const {id_peliculas} = body;
+    let client, result
+    try {
+        client = await connection();
+        result = await client.query(userQuerys.existeEnFavoritos, [id_peliculas, id_usuario])
+        return result.rows[0];
+    } catch (error) {
+        console.log(error, "<===========================>")
+        return error;
+    } finally{
+        await client.end()
+        console.log("<==============CIERRE DE CONEXIÓN=============>")
+    }
+}
+
 module.exports={
     getFilmByTitulo,
     getAllFavourite,
     deleteFavorite,
-    saveFavourite
+    saveFavourite,
+    existeEnFavoritos
 }

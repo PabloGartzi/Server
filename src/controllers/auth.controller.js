@@ -17,7 +17,7 @@ const createUser = async (req, res) => {
         }
         const salt = bcrypt.genSaltSync(10);
         const hashedPassword = bcrypt.hashSync(contrasenia, salt);
-        const id_rol = 1
+        const id_rol = 1 // En la query
         const savedUser = await anadir_usuario(nombre, email, hashedPassword, id_rol)
         console.log(savedUser)
         const payload ={
@@ -61,7 +61,7 @@ const loginUser = async (req, res) => {
         }
         const passwordOk = bcrypt.compareSync(contrasenia, usuario.contrasenia)
         if(!passwordOk){
-            return res.status(400).json({
+            return res.status(401).json({
                 ok:false,
                 msg: "La contraseña no es válida"
             })

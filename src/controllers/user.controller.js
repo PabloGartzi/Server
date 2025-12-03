@@ -1,4 +1,4 @@
-const { deleteFavorite, getAllFavourite, getFilmByTitulo, saveFavourite} = require('../models/user.model')
+const { deleteFavorite, getAllFavourite, getFilmByTitulo, saveFavourite, existeEnFavoritos} = require('../models/user.model')
 
 
 // Controllers de usuario
@@ -10,7 +10,8 @@ const buscarPelicula = async (req, res) => {
         console.log("<================ LA PELICULA BUSCADA: ================>", data)
         return res.status(200).json({
             ok: true,
-            msg: "TODO OK"
+            msg: "TODO OK",
+            data
         })
     } catch (error) {
         console.log(error)
@@ -44,11 +45,19 @@ const guardarFavorito = async (req,res) => {
     const body = req.body
     try {
         const id_usuario = req.userToken.uid;
+        const existeEnFav = await existeEnFavoritos(body, id_usuario)
+        if(existeEnFav){
+            return res.status(400).json({
+                ok: false,
+                msg: "Ya existe esa pelicula en favoritos",
+            })
+        }
         const data = await saveFavourite(body, id_usuario)
         console.log("<================ LA PELICULA GUARDADA EN FAVORITOS: ================>", data)
         return res.status(200).json({
             ok: true,
-            msg: "TODO OK"
+            msg: "TODO OK",
+            data
         })
     } catch (error) {
         console.log(error)
@@ -63,6 +72,13 @@ const borrarFavorito = async (req, res) => {
     const body = req.body
     try {
         const id_usuario = req.userToken.uid
+        const existeEnFav = await existeEnFavoritos(body, id_usuario)
+        if(!existeEnFav){
+            return res.status(400).json({
+                ok: false,
+                msg: "No puedes borrarlo porque no existe",
+            })
+        }
         const data = await deleteFavorite(body, id_usuario)
         console.log("<================ EL FAVORITO A ELIMINAR ES: ================>", data)
         return res.status(200).json({

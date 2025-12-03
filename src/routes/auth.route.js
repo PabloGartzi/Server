@@ -3,13 +3,35 @@ const router = express.Router()
 
 const {createUser, loginUser, renewToken} = require("../controllers/auth.controller")
 const {validarJWT} = require("../middlewares/validarJWT")
-const {validarRol} = require("../middlewares/roles.middleware")
+const {check} = require("express-validator");
+const{validateInputs}= require("../middlewares/validateInputs");
+//const {validarRol} = require("../middlewares/roles.middleware")
 
 //REGISTER
-router.post('/signup', /* [validacion] ,*/ createUser)
+router.post('/signup', [
+    check("nombre")
+        .not().isEmpty().withMessage("Debes escribir el título")
+        .isLength({min:1, max:50}).withMessage("El título no tiene la longitud correcta"),
+    check("email")
+        .not().isEmpty().withMessage("Debes escribir el email")
+        .isEmail().withMessage("Debes escribir un email correcto")
+        .isLength({min:1, max:100}).withMessage("No tiene la logitud correcta"),
+    check("contrasenia")
+        .not().isEmpty().withMessage("Debes escribir el título")
+        .isLength({min:1, max:250}).withMessage("La contraseña no tiene la longitud correcta"),
+    validateInputs], createUser)
 
 //LOGIN
-router.post('/login', /* [validacion] ,*/ loginUser)
+router.post('/login',[
+    
+    check("email")
+        .not().isEmpty().withMessage("Debes escribir el email")
+        .isEmail().withMessage("Debes escribir un email correcto")
+        .isLength({min:1, max:100}).withMessage("No tiene la logitud correcta"),
+    check("contrasenia")
+        .not().isEmpty().withMessage("Debes escribir el título")
+        .isLength({min:1, max:250}).withMessage("La contraseña no tiene la longitud correcta"),
+    validateInputs], loginUser)
 
 //RENEWTOKEN
 router.post('/renew', [validarJWT/* , validarRol(["admin", "user"]) */] , renewToken)
