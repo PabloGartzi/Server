@@ -34,7 +34,12 @@ router.post('/login',[
     validateInputs], loginUser)
 
 //RENEWTOKEN
-router.post('/renew', [validarJWT/* , validarRol(["admin", "user"]) */] , renewToken)
+router.post('/renew', [validarJWT] , renewToken)
+
+
+//LOG OUT
+
+// router.post('/logout', [validarJWT], logOut)
 
 
 

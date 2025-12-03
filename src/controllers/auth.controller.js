@@ -17,7 +17,7 @@ const createUser = async (req, res) => {
         }
         const salt = bcrypt.genSaltSync(10);
         const hashedPassword = bcrypt.hashSync(contrasenia, salt);
-        const id_rol = 1 // En la query
+        const id_rol = 2 // En la query
         const savedUser = await anadir_usuario(nombre, email, hashedPassword, id_rol)
         console.log(savedUser)
         const payload ={

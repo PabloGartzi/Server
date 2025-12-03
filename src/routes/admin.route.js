@@ -27,11 +27,11 @@ router.post('/createMovie', [
         .notEmpty().withMessage("Debes añadir el año")
         .isInt({ min: 1888, max: new Date().getFullYear() + 3 }).withMessage("El año no es válido"),
     // Director ID
-    check("id_director")
+    check("director")
         .notEmpty().withMessage("Debes escribir el id del director")
         .isInt().withMessage("El id del director debe ser numérico"),
     // Género ID
-    check("id_genero")
+    check("genero")
         .notEmpty().withMessage("Debes escribir el id del género")
         .isInt().withMessage("El id del género debe ser numérico"),
     // Duración
@@ -49,32 +49,33 @@ router.post('/createMovie', [
 //Ruta editar película
 router.put('/editMovie/:id',[
     validarJWT,
+    validarRol([2]),
     // Título
-    check("titulo").optional()
+    check("titulo")
         .notEmpty().withMessage("Debes escribir el título")
         .isLength({ min: 1, max: 150 }).withMessage("El título no tiene la longitud correcta"),
     // Imagen URL
-    check("imagen_url").optional()
+    check("imagen_url")
         .notEmpty().withMessage("Debes insertar la imagen")
         .isURL().withMessage("La imagen debe ser una URL válida"),
     // Año (como INT)
-    check("anio").optional()
+    check("anio")
         .notEmpty().withMessage("Debes añadir el año")
         .isInt({ min: 1888, max: new Date().getFullYear() + 3 }).withMessage("El año no es válido"),
     // Director ID
-    check("id_director").optional()
+    check("director")
         .notEmpty().withMessage("Debes escribir el id del director")
         .isInt().withMessage("El id del director debe ser numérico"),
     // Género ID
-    check("id_genero").optional()
+    check("genero")
         .notEmpty().withMessage("Debes escribir el id del género")
         .isInt().withMessage("El id del género debe ser numérico"),
     // Duración
-    check("duracion_en_min").optional()
+    check("duracion_en_min")
         .notEmpty().withMessage("Debes escribir la duración en minutos")
         .isInt({ min: 1, max: 600 }).withMessage("La duración no es válida"),
     // Sinopsis
-    check("sinopsis").optional()
+    check("sinopsis")
         .notEmpty().withMessage("Debes escribir la sinopsis")
         .isLength({ max: 600 }).withMessage("La sinopsis no puede superar los 600 caracteres"),
 
