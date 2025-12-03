@@ -6,22 +6,21 @@ const {check} = require("express-validator");
 const{validateInputs}= require("../middlewares/validateInputs");
 const {validarRol} = require("../middlewares/roles.middleware")
 
+const {upload} = require("../middlewares/upload");
+
+
+
 // Ruta inicio (donde están todas las peliculas del admin)
 router.get('/',[validarJWT, validarRol([2])], getTodasLasPelis)
 router.get('/:id',[validarJWT, validarRol([2])], getPeliculaPorID)
 
 // Ruta crear pelicula
 router.post('/createMovie', [
-    validarJWT,
-    validarRol([2]),
+        upload.single("imagen"),
     // Título
     check("titulo")
         .notEmpty().withMessage("Debes escribir el título")
         .isLength({ min: 1, max: 150 }).withMessage("El título no tiene la longitud correcta"),
-    // Imagen URL
-    check("imagen_url")
-        .notEmpty().withMessage("Debes insertar la imagen")
-        .isURL().withMessage("La imagen debe ser una URL válida"),
     // Año (como INT)
     check("anio")
         .notEmpty().withMessage("Debes añadir el año")
@@ -42,22 +41,17 @@ router.post('/createMovie', [
     check("sinopsis")
         .notEmpty().withMessage("Debes escribir la sinopsis")
         .isLength({ max: 600 }).withMessage("La sinopsis no puede superar los 600 caracteres"),
-
-    validateInputs
+    validateInputs,
+    validarJWT,
+    validarRol([2])
 ], anadirPelicula)
 
 //Ruta editar película
 router.put('/editMovie/:id',[
-    validarJWT,
-    validarRol([2]),
     // Título
     check("titulo")
         .notEmpty().withMessage("Debes escribir el título")
         .isLength({ min: 1, max: 150 }).withMessage("El título no tiene la longitud correcta"),
-    // Imagen URL
-    check("imagen_url")
-        .notEmpty().withMessage("Debes insertar la imagen")
-        .isURL().withMessage("La imagen debe ser una URL válida"),
     // Año (como INT)
     check("anio")
         .notEmpty().withMessage("Debes añadir el año")
@@ -78,8 +72,10 @@ router.put('/editMovie/:id',[
     check("sinopsis")
         .notEmpty().withMessage("Debes escribir la sinopsis")
         .isLength({ max: 600 }).withMessage("La sinopsis no puede superar los 600 caracteres"),
-
-    validateInputs
+    validateInputs,
+    validarJWT,
+    validarRol([2]),
+    upload.single("imagen")
 ], editarPelicula)
 
 //Ruta borrar película

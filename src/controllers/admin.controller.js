@@ -1,4 +1,6 @@
 const { getAllFilms, getFilmByID, addFilm, editMovie, deleteMovie } = require("../models/admin.model")
+const { saveImage } = require("../middlewares/upload");
+
 
 const getTodasLasPelis = async (req, res) => {
     try {
@@ -39,6 +41,11 @@ const getPeliculaPorID = async (req, res) => {
 const anadirPelicula = async (req, res) => {
     const body = req.body
     try {
+        if (req.file) {
+            const imagePath = saveImage(req.file);
+            console.log("<=============================================>")
+            req.body.imagen_url = imagePath;
+        }
         const data = await addFilm(body)
         console.log("Pelicula agregada:", data);
         return res.status(201).json({
@@ -59,6 +66,11 @@ const editarPelicula = async (req, res) => {
     const id = req.params.id
     const modificacion = req.body
     try {
+        if (req.file) {
+            const imagePath = saveImage(req.file);
+            console.log("<=============================================>")
+            req.body.imagen_url = imagePath;
+        }
         const nuevaPeli = await editMovie(id, modificacion)
         if (nuevaPeli) {
             return res.status(200).json({

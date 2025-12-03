@@ -23,6 +23,7 @@ cors({
 app.use(express.json())
 app.use(express.urlencoded())
 
+app.use(express.static(__dirname + '/public'))
 
 //RUTAS
 app.use('/admin', require('./routes/admin.route'));
