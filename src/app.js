@@ -2,6 +2,11 @@ const express = require("express"); //USAMOS EXPRESS PARA LA CONEXIÓN CON EL SE
 require('dotenv').config() //MANEJO DE VARIABLES DE ENTORNO
 var cors = require("cors");
 
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
+
+
+
 
 const app = express()
 const port = process.env.PORT;
@@ -10,12 +15,7 @@ cors({
   origin:["http://www.render.com"]
 })
 
-
-//BBDD
-
-// connection()
-//   .then((resp) => console.log('Conectado a la base de datos de pg'))
-//   .catch((error) => console.log(error))
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 //TEMPLATES
 

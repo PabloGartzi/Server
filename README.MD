@@ -46,5 +46,15 @@ npm install
 ### Herramientas de desarrollo
 - Git y GitHub  
 - Nodemon  
-- Postman para pruebas de endpoints  
+- Postman para pruebas de endpoints
+- Multer para subida de imágenes
+
+### Documentación de la api con swagger
+
+1. Instalamos dependencia: 
+npm install swagger-ui-express swagger-jsdoc --save
+
+http://localhost/4001/api-docs/#/
+
+
 

@@ -1,0 +1,217 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Movie App API",
+    "version": "1.0.0",
+    "description": "Documentación API - Proyecto Fullstack"
+  },
+  "servers": [
+    { "url": "http://localhost:4001", "description": "Servidor local" }
+  ],
+  "tags": [
+    { "name": "Auth", "description": "Registro, login y renovación de token" },
+    { "name": "Admin", "description": "Gestión de películas y dashboard" },
+    { "name": "User", "description": "Búsqueda y favoritos de películas" }
+  ],
+  "paths": {
+    "/signup": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Registrar usuario",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UsuarioRegister" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Usuario creado correctamente" },
+          "400": { "description": "Error en validación de datos" }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Login de usuario",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UsuarioLogin" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Login exitoso con JWT" },
+          "401": { "description": "Credenciales incorrectas" }
+        }
+      }
+    },
+    "/renew": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Renovar token JWT",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Token renovado correctamente" },
+          "401": { "description": "Token inválido o expirado" }
+        }
+      }
+    },
+    "/admin/dashboard": {
+      "get": {
+        "tags": ["Admin"],
+        "summary": "Listado de todas las películas (admin)",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Listado de películas", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Pelicula" } } } } },
+          "401": { "description": "No autorizado" }
+        }
+      }
+    },
+    "/admin/:{id}": {
+      "get": {
+        "tags": ["Admin"],
+        "summary": "Obtener película por ID (admin)",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "Datos de la película" }, "404": { "description": "No encontrada" } }
+      }
+    },
+    "/admin/createMovie": {
+      "post": {
+        "tags": ["Admin"],
+        "summary": "Crear película",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": { "multipart/form-data": { "schema": { "$ref": "#/components/schemas/PeliculaCreate" } } }
+        },
+        "responses": { "201": { "description": "Película creada" } }
+      }
+    },
+    "/admin/editMovie/:{id}": {
+      "put": {
+        "tags": ["Admin"],
+        "summary": "Editar película por ID",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": { "required": true, "content": { "multipart/form-data": { "schema": { "$ref": "#/components/schemas/PeliculaEdit" } } } },
+        "responses": { "200": { "description": "Película actualizada" }, "404": { "description": "No encontrada" } }
+      }
+    },
+    "/admin/removeMovie/:{id}": {
+      "delete": {
+        "tags": ["Admin"],
+        "summary": "Eliminar película por ID",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "204": { "description": "Película eliminada" }, "404": { "description": "No encontrada" } }
+      }
+    },
+    "/search": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Buscar película por título",
+        "parameters": [{ "name": "titulo", "in": "query", "required": true, "schema": { "type": "string" } }],
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "Películas encontradas", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Pelicula" } } } } }, "401": { "description": "No autorizado" } }
+      }
+    },
+    "/anadirFavoritos": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Añadir película a favoritos",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Favorito" } } } },
+        "responses": { "200": { "description": "Añadido a favoritos" }, "401": { "description": "No autorizado" } }
+      }
+    },
+    "/favoritos": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Obtener películas favoritas del usuario",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "Listado de favoritos", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Pelicula" } } } } }, "401": { "description": "No autorizado" } }
+      }
+    },
+    "/deleteFavorito": {
+      "delete": {
+        "tags": ["User"],
+        "summary": "Eliminar película de favoritos",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "id_usuario", "in": "query", "required": true, "schema": { "type": "integer" }, "description": "ID del usuario" },
+          { "name": "id_peliculas", "in": "query", "required": true, "schema": { "type": "integer" }, "description": "ID de la película a eliminar" }
+        ],
+        "responses": {
+          "200": { "description": "Eliminado de favoritos" },
+          "401": { "description": "No autorizado" }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "UsuarioRegister": {
+        "type": "object",
+        "properties": {
+          "nombre": { "type": "string", "maxLength": 50 },
+          "email": { "type": "string", "format": "email", "maxLength": 100 },
+          "contrasenia": { "type": "string", "maxLength": 250 }
+        },
+        "required": ["nombre", "email", "contrasenia"]
+      },
+      "UsuarioLogin": {
+        "type": "object",
+        "properties": {
+          "email": { "type": "string", "format": "email", "maxLength": 100 },
+          "contrasenia": { "type": "string", "maxLength": 250 }
+        },
+        "required": ["email", "contrasenia"]
+      },
+      "Pelicula": {
+        "type": "object",
+        "properties": {
+          "id_peliculas": { "type": "integer" },
+          "titulo": { "type": "string", "maxLength": 150 },
+          "director": { "type": "string", "maxLength": 150 },
+          "anio": { "type": "integer" },
+          "duracion_en_min": { "type": "integer" },
+          "genero": { "type": "string", "maxLength": 150 },
+          "imagen": { "type": "string", "format": "binary", "maxLength": 255 },
+          "sinopsis": { "type": "string", "maxLength": 600 }
+        }
+      },
+      "PeliculaCreate": {
+        "type": "object",
+        "properties": {
+          "titulo": { "type": "string" },
+          "director": { "type": "string" },
+          "anio": { "type": "integer" },
+          "duracion_en_min": { "type": "integer" },
+          "genero": { "type": "string" },
+          "imagen": { "type": "string", "format": "binary", "maxLength": 255 },
+          "sinopsis": { "type": "string" }
+        },
+        "required": ["titulo", "anio", "sinopsis"]
+      },
+      "PeliculaEdit": { "$ref": "#/components/schemas/PeliculaCreate" },
+      "Favorito": {
+        "type": "object",
+        "properties": {
+          "id_peliculas": { "type": "integer" },
+          "id_usuario": { "type": "integer" }
+        },
+        "required": ["id_peliculas", "id_usuario"]
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": { "type": "http", "scheme": "bearer", "bearerFormat": "JWT" }
+    }
+  },
+  "security": [{ "bearerAuth": [] }]
+}
