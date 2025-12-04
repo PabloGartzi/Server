@@ -11,7 +11,7 @@ const{validateInputs}= require("../middlewares/validateInputs");
 router.post('/signup', [
     check("nombre")
         .not().isEmpty().withMessage("Debes escribir el título")
-        .isLength({min:1, max:50}).withMessage("El título no tiene la longitud correcta"),
+        .isLength({min:1, max:50}).withMessage("El nombre no tiene la longitud correcta"),
     check("email")
         .not().isEmpty().withMessage("Debes escribir el email")
         .isEmail().withMessage("Debes escribir un email correcto")

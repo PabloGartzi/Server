@@ -11,7 +11,7 @@ const {upload} = require("../middlewares/upload");
 
 
 // Ruta inicio (donde están todas las peliculas del admin)
-router.get('/',[validarJWT, validarRol([2])], getTodasLasPelis)
+router.get('/dashboard',[validarJWT, validarRol([2])], getTodasLasPelis)
 router.get('/:id',[validarJWT, validarRol([2])], getPeliculaPorID)
 
 // Ruta crear pelicula

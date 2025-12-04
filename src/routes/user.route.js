@@ -13,8 +13,6 @@ const {
  } = require("../controllers/user.controller");
 
 
-// router.get('/',/* validaciones ,*/ getTodasLasPelis);
-// router.get('/dashboard',/* validaciones ,*/dashboard)
 router.get('/search', [validarJWT, validarRol([1]), check("titulo")
         .not().isEmpty().withMessage("Debes escribir el título")
         .isLength({min:1, max:150}).withMessage("El título no tiene la longitud correcta"),
