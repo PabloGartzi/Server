@@ -11,7 +11,8 @@ const swaggerDocument = require('./swagger.json');
 const app = express()
 const port = process.env.PORT;
 
-var whitelist = ["https://server-yo1g.onrender.com", `http://localhost:${process.env.PORT}`]
+//CUIDADO EN LA WHITELIST HAY QUE AÑADIR EL PUERTO QUE LLAMA DESDE EL FRONT
+var whitelist = ["https://server-yo1g.onrender.com", `http://localhost:${process.env.PORT}`, `http://localhost:3000`]
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
