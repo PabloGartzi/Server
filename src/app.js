@@ -11,9 +11,17 @@ const swaggerDocument = require('./swagger.json');
 const app = express()
 const port = process.env.PORT;
 
-cors({
-  origin:["http://www.render.com"]
-})
+var whitelist = ["https://server-yo1g.onrender.com", `http://localhost:${process.env.PORT}`]
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
+app.use(cors(corsOptions))
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
