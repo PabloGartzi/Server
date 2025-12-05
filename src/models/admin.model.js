@@ -78,11 +78,26 @@ const deleteMovie = async (id) => {
   }
 };
 
+const findOne = async (titulo) => {
+  let client, result
+  try {
+    client = await connection();
+    result = await client.query(adminQuerys.findOne, [titulo])
+    return result.rows[0] || null;
+  } catch (error) {
+    console.log(error, "<===========================>")
+    return error;
+  } finally{
+    await client.end()
+    console.log("<==============CIERRE DE CONEXIÓN=============>")
+  }
+}
 
 module.exports= {
     getAllFilms,
     getFilmByID,
     addFilm,
     editMovie,
-    deleteMovie
+    deleteMovie,
+    findOne
 }

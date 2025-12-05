@@ -1,4 +1,4 @@
-const { getAllFilms, getFilmByID, addFilm, editMovie, deleteMovie } = require("../models/admin.model")
+const { getAllFilms, getFilmByID, addFilm, editMovie, deleteMovie, findOne } = require("../models/admin.model")
 const { saveImage } = require("../middlewares/upload");
 
 
@@ -41,6 +41,14 @@ const getPeliculaPorID = async (req, res) => {
 const anadirPelicula = async (req, res) => {
     const body = req.body
     try {
+        const existe = await findOne(body.titulo);
+        console.log(existe, "==========================================================================")
+        if(existe){
+            return res.status(401).json({
+                ok:false,
+                msg: "Pelicula ya existente"
+            })
+        }
         if (req.file) {
             const imagePath = saveImage(req.file);
             console.log("<=============================================>")

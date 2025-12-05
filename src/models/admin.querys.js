@@ -14,6 +14,7 @@ const adminQuerys = {
     WHERE id_peliculas = $1
     RETURNING *;`,
     deleteMovie: `DELETE FROM peliculas WHERE id_peliculas = $1 RETURNING *;`,
+    findOne: `SELECT * FROM peliculas WHERE titulo = $1`,
 }
 
 module.exports = {
