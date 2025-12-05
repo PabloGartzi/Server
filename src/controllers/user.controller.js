@@ -4,7 +4,7 @@ const { deleteFavorite, getAllFavourite, getFilmByTitulo, saveFavourite, existeE
 // Controllers de usuario
 
 const buscarPelicula = async (req, res) => {
-    const body = req.body
+    const body = req.query
     try {
         const data = await getFilmByTitulo(body)
         console.log("<================ LA PELICULA BUSCADA: ================>", data)
