@@ -6,7 +6,8 @@ const userQuerys = {
     WHERE favoritos.id_usuario = $1`,
     deleteFavorite: `DELETE FROM favoritos WHERE id_usuario = $1 AND id_peliculas = $2 RETURNING *;`,
     saveFavouriteFilm: `INSERT INTO favoritos (id_peliculas, id_usuario) VALUES ($1, $2) RETURNING *;`,
-    existeEnFavoritos: `SELECT * FROM favoritos WHERE id_peliculas = $1 AND id_usuario = $2`
+    existeEnFavoritos: `SELECT * FROM favoritos WHERE id_peliculas = $1 AND id_usuario = $2`,
+    getFilmByID: `SELECT * FROM peliculas WHERE id_peliculas = $1`,
 }
 
 

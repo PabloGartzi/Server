@@ -1,4 +1,4 @@
-const { deleteFavorite, getAllFavourite, getFilmByTitulo, saveFavourite, existeEnFavoritos} = require('../models/user.model')
+const { deleteFavorite, getAllFavourite, getFilmByTitulo, saveFavourite, existeEnFavoritos, getFilmByID} = require('../models/user.model')
 
 
 // Controllers de usuario
@@ -95,9 +95,28 @@ const borrarFavorito = async (req, res) => {
     }
 }
 
+const getPeliculaPorID = async (req, res) => {
+    const id = req.params.id
+    try {
+        const data = await getFilmByID(id)
+        return res.status(200).json({
+            ok: true,
+            msg: "TODO OK",
+            data
+        })
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            ok: false,
+            msg: "TODO MAL, CONTACTA CON EL ADMIN"
+        })
+    }
+}
+
 module.exports = {
     getTodoLosFavoritos,
     borrarFavorito,
     buscarPelicula,
-    guardarFavorito
+    guardarFavorito,
+    getPeliculaPorID
 }

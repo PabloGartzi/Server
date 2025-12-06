@@ -79,10 +79,26 @@ const existeEnFavoritos = async (body, id_usuario) => {
     }
 }
 
+const getFilmByID = async (id) => {
+  let client, result
+  try {
+    client = await connection();
+    result = await client.query(userQuerys.getFilmByID, [id])
+    return result.rows[0];
+  } catch (error) {
+    console.log(error, "<===========================>")
+    return error;
+  } finally{
+    await client.end()
+    console.log("<==============FINAL=============>")
+  }
+}
+
 module.exports={
     getFilmByTitulo,
     getAllFavourite,
     deleteFavorite,
     saveFavourite,
-    existeEnFavoritos
+    existeEnFavoritos,
+    getFilmByID
 }

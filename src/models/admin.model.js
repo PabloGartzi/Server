@@ -21,7 +21,7 @@ const getFilmByID = async (id) => {
   try {
     client = await connection();
     result = await client.query(adminQuerys.getFilmByID, [id])
-    return result.rows;
+    return result.rows[0];
   } catch (error) {
     console.log(error, "<===========================>")
     return error;

@@ -10,8 +10,10 @@ const {
     getTodoLosFavoritos,
     guardarFavorito,
     borrarFavorito,
+    getPeliculaPorID
  } = require("../controllers/user.controller");
 
+router.get('/dashboard/:id',[validarJWT, validarRol([1])], getPeliculaPorID)
 
 router.get('/search', [validarJWT, validarRol([1]), check("titulo")
         .not().isEmpty().withMessage("Debes escribir el título")
