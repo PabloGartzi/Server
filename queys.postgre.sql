@@ -33,7 +33,7 @@ CREATE TABLE usuarios (
 
 CREATE TABLE favoritos (
     id_favoritos SERIAL PRIMARY KEY,
-    id_peliculas INT REFERENCES Peliculas(id_peliculas),
+    id_peliculas INT REFERENCES peliculas(id_peliculas),
     id_usuario INT REFERENCES usuarios(id_usuario)
 );
 INSERT INTO favoritos (id_peliculas, id_usuario) VALUES (5, 2) RETURNING *;
