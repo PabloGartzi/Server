@@ -6,25 +6,34 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 
 
+const multer = require("multer");
+const upload = multer({ storage: multer.memoryStorage() });
 
 
 const app = express()
 const port = process.env.PORT;
 
 //CUIDADO EN LA WHITELIST HAY QUE AÑADIR EL PUERTO QUE LLAMA DESDE EL FRONT
-var whitelist = ["https://server-yo1g.onrender.com", `http://localhost:${process.env.PORT}`, `http://localhost:3000`]
+var whitelist = [
+  "https://server-yo1g.onrender.com", 
+  `http://localhost:${port}`, 
+  "http://localhost:3100",
+  "http://127.0.0.1:3100"
+];
+
 var corsOptions = {
   origin: function (origin, callback) {
-    if (!origin) return callback(null, true);
+    if (!origin) return callback(null, true); // Postman o server-side requests
     if (whitelist.includes(origin)) {
       return callback(null, true);
     }
-
     console.log("Origin bloqueado:", origin);
     callback(new Error("Not allowed by CORS"));
-  }
-}
-app.use(cors(corsOptions))
+  },
+  credentials: true, // <--- importante para cookies
+};
+app.use(cors(corsOptions));
+
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
@@ -32,7 +41,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 //MIDDLEWARE
 app.use(express.json())
-app.use(express.urlencoded())
+app.use(express.urlencoded({ extended: true }))
 
 app.use(express.static(__dirname + '/public'))
 
@@ -47,4 +56,3 @@ app.use('/',require('./routes/auth.route'));
 app.listen(port, () => {
   console.log(`Server on port ${port}`);
 });
-
