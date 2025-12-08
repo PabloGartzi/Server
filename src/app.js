@@ -17,8 +17,8 @@ const port = process.env.PORT;
 var whitelist = [
   "https://server-yo1g.onrender.com", 
   `http://localhost:${port}`, 
-  "http://localhost:3100",
-  "http://127.0.0.1:3100"
+  "http://localhost:3001",
+  "http://127.0.0.1:3001"
 ];
 
 var corsOptions = {
