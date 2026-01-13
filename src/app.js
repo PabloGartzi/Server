@@ -19,7 +19,8 @@ var whitelist = [
   "https://server-yo1g.onrender.com", 
   `http://localhost:${port}`, 
   "http://localhost:3001",
-  "http://127.0.0.1:3001"
+  "http://127.0.0.1:3001",
+  "http://localhost:5173/"
 ];
 
 var corsOptions = {

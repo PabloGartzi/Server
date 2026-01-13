@@ -16,4 +16,4 @@ const validateInputs = (req, res, next) => {
 
 module.exports={
     validateInputs
-}
+} 
